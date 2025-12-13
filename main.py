@@ -3,6 +3,7 @@ import asyncio
 from aiogram import Bot, Dispatcher, filters, F
 from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from aiogram.client.session.aiohttp import AiohttpSession
+from aiogram.filters import Command
 from DollarPrice.main import fetch_text, return_price, find_tag
 from typing import Final
 
@@ -33,17 +34,22 @@ async def price_dollar(call: CallbackQuery):
     if call.data == 'dollar_price':
         dollar_url = f'{URL}price_dollar_rl'
         text_ = get_price(dollar_url, 'دلار')
-        await call.bot.send_message(call.from_user.id, text_)
+        await call.bot.send_message(call.message.chat.id, text_)
     elif call.data == 'euro_price':
         euro_url = f'{URL}price_eur'
         text_ = get_price(euro_url, 'یورو')
-        await call.bot.send_message(call.from_user.id, text_)
+        await call.bot.send_message(call.message.chat.id, text_)
     elif call.data == 'gold_price':
         gold_url = f'{URL}geram18'
         text_ = get_price(gold_url, 'طلا')
-        await call.bot.send_message(call.from_user.id, text_)
+        await call.bot.send_message(call.message.chat.id, text_)
     else:
-        await call.bot.send_message(call.from_user.id, 'دستور ناشناخته ❌')
+        await call.bot.send_message(call.message.chat.id, 'دستور ناشناخته ❌')
+
+
+@dp.message(F.text.lower() == 'قیمت')
+async def price(msg: Message):
+    await start(msg=msg)
 
 
 async def main():
