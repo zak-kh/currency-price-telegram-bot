@@ -3,9 +3,9 @@ import asyncio
 from aiogram import Bot, Dispatcher, filters, F
 from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from aiogram.client.session.aiohttp import AiohttpSession
-from aiogram.filters import Command
 from DollarPrice.main import fetch_text, return_price, find_tag
 from typing import Final
+import configs
 
 dp = Dispatcher()
 
@@ -53,9 +53,8 @@ async def price(msg: Message):
 
 
 async def main():
-    TOKEN_: Final[str] = '8506432335:AAE5bhj_c1lXtXVsD9rykbCNZygoB2Hygc4'
     proxy = AiohttpSession('http://127.0.0.1:12334')
-    bot = Bot(session=proxy, token=TOKEN_)
+    bot = Bot(session=proxy, token=configs.TOKEN)
     await dp.start_polling(bot)
 
 
