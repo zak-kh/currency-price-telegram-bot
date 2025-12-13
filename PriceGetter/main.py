@@ -16,8 +16,20 @@ def return_price(price_tag) -> int | None:
     if price_tag:
         price = price_tag.text.strip().split(',')
         price = ''.join(price)
-        return int(int(price) // 10)  # to convert rial to toman
+        return float(price)  # to convert rial to toman
     return None
+
+
+def get_change(text):
+    change_down = find_tag(text=text, tag='span', class_='change-down')
+    change_up = find_tag(text=text, tag='span', class_='change-up')
+
+    if change_up:
+        return f'%{change_up.text}+ 📈 '
+    elif change_down:
+        return f'%{change_down.text}- 📉 '
+    else:
+        return '(%0)'
 
 
 def main():
