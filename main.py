@@ -14,6 +14,7 @@ async def start(msg: Message):
     markup = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text='💵 دریافت قیمت دلار', callback_data='dollar_price')],
         [InlineKeyboardButton(text='💶 دریافت قیمت یورو', callback_data='euro_price')],
+        [InlineKeyboardButton(text='💛 دریافت قیمت طلا', callback_data='gold_price')],
     ])
     await msg.answer('لطفا گزینه مورد نظرتون رو انتخاب کنید.', reply_markup=markup)
 
@@ -27,13 +28,19 @@ def get_price(URL, currency):
 
 @dp.callback_query()
 async def price_dollar(call: CallbackQuery):
+    URL: Final['str'] = 'https://www.tgju.org/profile/'
+
     if call.data == 'dollar_price':
-        URL: Final['str'] = 'https://www.tgju.org/profile/price_dollar_rl'
-        text_ = get_price(URL, 'دلار')
+        dollar_url = f'{URL}price_dollar_rl'
+        text_ = get_price(dollar_url, 'دلار')
         await call.bot.send_message(call.from_user.id, text_)
     elif call.data == 'euro_price':
-        URL: Final['str'] = 'https://www.tgju.org/profile/price_eur'
-        text_ = get_price(URL, 'یورو')
+        euro_url = f'{URL}price_eur'
+        text_ = get_price(euro_url, 'یورو')
+        await call.bot.send_message(call.from_user.id, text_)
+    elif call.data == 'gold_price':
+        gold_url = f'{URL}geram18'
+        text_ = get_price(gold_url, 'طلا')
         await call.bot.send_message(call.from_user.id, text_)
     else:
         await call.bot.send_message(call.from_user.id, 'دستور ناشناخته ❌')
