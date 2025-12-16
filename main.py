@@ -5,7 +5,7 @@ from aiogram import Bot, Dispatcher, filters, F
 from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from aiogram.client.session.aiohttp import AiohttpSession
 
-# price fetcher of websites
+# price fetcher from website
 from PriceGetter.main import fetch_text, return_price, find_tag, get_change
 
 # type hints
@@ -13,6 +13,9 @@ from typing import Final
 
 # configs
 import configs
+
+# helper
+import helper
 
 dp = Dispatcher()
 
@@ -59,6 +62,12 @@ async def price_dollar(call: CallbackQuery):
 
 
 @dp.message(F.text.lower() == 'قیمت')
+async def price(msg: Message):
+    await start(msg=msg)
+
+
+@dp.message(F.text == 'admin')
+@helper.admin_filter(configs.ADMINS)
 async def price(msg: Message):
     await start(msg=msg)
 
