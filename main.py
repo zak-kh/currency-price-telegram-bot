@@ -2,6 +2,7 @@ import asyncio
 
 # aiogram
 from aiogram import Bot, Dispatcher, filters, F
+from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from aiogram.client.session.aiohttp import AiohttpSession
 
@@ -66,10 +67,10 @@ async def price(msg: Message):
     await start(msg=msg)
 
 
-@dp.message(F.text == 'admin')
+@dp.message(Command('admin'))
 @helper.admin_filter(configs.ADMINS)
-async def price(msg: Message):
-    await start(msg=msg)
+async def adminPanel(msg: Message):
+    await msg.reply('Inital admin panel!')
 
 
 async def main():
